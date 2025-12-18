@@ -1,6 +1,6 @@
 # Medicine Box Temperature Monitor (IoT)
 
-A low-cost IoT system that monitors medicine storage temperature (recommended **2°C–8°C**) using a **Raspberry Pi Pico W** + **BMP280** sensor, publishes readings via **MQTT over TLS**, stores them in **InfluxDB**, visualizes them on a **Node-RED Dashboard**, and triggers alerts when temperature goes out of range. :contentReference[oaicite:1]{index=1}
+A low-cost IoT system that monitors medicine storage temperature (recommended **2°C–8°C**) using a **Raspberry Pi Pico W** + **BMP280** sensor, publishes readings via **MQTT over TLS**, stores them in **InfluxDB**, visualizes them on a **Node-RED Dashboard**, and triggers alerts when temperature goes out of range. 
 
 ---
 
@@ -13,7 +13,7 @@ A low-cost IoT system that monitors medicine storage temperature (recommended **
 - **Node-RED pipeline** for routing + automation
 - **InfluxDB time-series storage** + historical tracking
 - **Dashboard visualization** (charts/gauges)
-- **Alerting** on unsafe temperatures (SMS/Email pipeline via Node-RED) :contentReference[oaicite:2]{index=2}
+- **Alerting** on unsafe temperatures (SMS/Email pipeline via Node-RED) 
 
 ---
 
@@ -22,7 +22,7 @@ A low-cost IoT system that monitors medicine storage temperature (recommended **
 **Sensing Layer → Network Layer → Data Processing Layer → Application Layer**
 
 
-This matches the report’s layered architecture and Node-RED flow design. :contentReference[oaicite:3]{index=3}
+This matches the report’s layered architecture and Node-RED flow design. 
 
 ---
 
@@ -31,14 +31,14 @@ This matches the report’s layered architecture and Node-RED flow design. :cont
 - Raspberry Pi **Pico W**
 - **BMP280** temperature sensor (I2C)
 - Power supply: USB or battery pack
-- Optional: 3D-printed enclosure / protective housing :contentReference[oaicite:4]{index=4}
+- Optional: 3D-printed enclosure / protective housing 
 
 ### Wiring (BMP280 → Pico W)
 
 Configured in the project as:
 - **SDA → GP4**
 - **SCL → GP5**
-- Use **3.3V** and **GND** (typical BMP280 modules support 3.3V) :contentReference[oaicite:5]{index=5}
+- Use **3.3V** and **GND** (typical BMP280 modules support 3.3V)
 
 ---
 
@@ -49,7 +49,7 @@ Configured in the project as:
 - **HiveMQ Cloud** (MQTT broker, TLS port typically 8883)
 - **Node-RED** (MQTT subscribe + logic + routing)
 - **InfluxDB** (time-series database)
-- Optional alerts: **Vonage** via Node-RED (SMS) :contentReference[oaicite:6]{index=6}
+- Optional alerts: **Vonage** via Node-RED (SMS) 
 
 ---
 
@@ -64,7 +64,7 @@ Your MicroPython logic should:
 - Read temperature: `temperature = bmp.temperature`
 - Sample periodically (the report uses **10 seconds** in one loop example)
 - Connect to Wi-Fi using `network.WLAN(network.STA_IF)`
-- Publish to MQTT topic: `Measurement Device/celsius` :contentReference[oaicite:7]{index=7}
+- Publish to MQTT topic: `Measurement Device/celsius` 
 
 **Suggested config constants (don’t hardcode secrets in git):**
 - `WIFI_SSID`, `WIFI_PASS`
@@ -72,7 +72,7 @@ Your MicroPython logic should:
 - `MQTT_USER`, `MQTT_PASS`
 - `MQTT_TOPIC="Measurement Device/celsius"`
 
-> Note: the report configures MQTT over TLS and (for project-level simplicity) disables certificate verification. For real deployments, enable certificate verification. :contentReference[oaicite:8]{index=8}
+> Note: the report configures MQTT over TLS and (for project-level simplicity) disables certificate verification. For real deployments, enable certificate verification. 
 
 ### 3) Set Up HiveMQ Cloud
 - Create a HiveMQ Cloud cluster
@@ -89,19 +89,19 @@ In Node-RED you should have:
   - if `temp > 8` → output `"plusboundary"`
   - else output nothing (silent during normal range)
 - **Delay/Throttle** node to prevent repeated alerts
-- **Switch** node to route to the correct alert action (SMS/email) :contentReference[oaicite:9]{index=9}
+- **Switch** node to route to the correct alert action (SMS/email) 
 
 ### 5) Set Up InfluxDB + Dashboard
 - Create InfluxDB bucket/database
 - Configure Node-RED InfluxDB node
-- Use **Node-RED Dashboard** widgets (chart/gauge) for real-time visualization :contentReference[oaicite:10]{index=10}
+- Use **Node-RED Dashboard** widgets (chart/gauge) for real-time visualization 
 
 ---
 
 ## ✅ Recommended Storage Range
 
 - **Safe range:** **2°C – 8°C**
-- Alerts trigger only when temperature leaves this range. :contentReference[oaicite:11]{index=11}
+- Alerts trigger only when temperature leaves this range. 
 
 ---
 
@@ -111,7 +111,7 @@ In Node-RED you should have:
 - Device-to-cloud latency: ~**0.8–1.2 seconds**
 - Load scenarios:
   - Low load (1 reading / 30s): stable, no packet loss
-  - High load (bundled readings): higher latency and minor packet loss under unstable Wi-Fi :contentReference[oaicite:12]{index=12}
+  - High load (bundled readings): higher latency and minor packet loss under unstable Wi-Fi 
 
 
 ---
