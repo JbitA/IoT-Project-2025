@@ -21,8 +21,9 @@ A low-cost IoT system that monitors medicine storage temperature (recommended **
 
 **Sensing Layer → Network Layer → Data Processing Layer → Application Layer**
 
+The Medicine Box Temperature Monitor is designed using a conventional multilayer IoT architecture comprising the Sensing, Network, Data Processing, and Application layers. Each layer incorporates specific hardware and software elements that collectively enable precise temperature measurement, dependable data transmission, and real-time alert notifications.
 
-This matches the report’s layered architecture and Node-RED flow design. 
+Below is the report’s layered architecture. 
 ![system Architecture](SystemArchitecture.jpeg)
 
 
@@ -33,7 +34,7 @@ This matches the report’s layered architecture and Node-RED flow design.
 - Raspberry Pi **Pico W**
 - **BMP280** temperature sensor (I2C)
 - Power supply: USB or battery pack
-- Optional: 3D-printed enclosure / protective housing 
+
 
 ### Wiring (BMP280 → Pico W)
 
@@ -61,20 +62,19 @@ Configured in the project as:
 - Install MicroPython firmware on Pico W (via official Pico tools/Thonny).
 
 ### 2) Upload Firmware to Pico W
-Your MicroPython logic should:
+The MicroPython logic are:
 - Initialize I2C on `I2C(0)` with `sda=Pin(4)` and `scl=Pin(5)` at `freq=400000`
 - Read temperature: `temperature = bmp.temperature`
 - Sample periodically (the report uses **10 seconds** in one loop example)
 - Connect to Wi-Fi using `network.WLAN(network.STA_IF)`
 - Publish to MQTT topic: `Measurement Device/celsius` 
 
-**Suggested config constants (don’t hardcode secrets in git):**
+**Suggested config constants :**
 - `WIFI_SSID`, `WIFI_PASS`
 - `MQTT_HOST`, `MQTT_PORT=8883`
 - `MQTT_USER`, `MQTT_PASS`
 - `MQTT_TOPIC="Measurement Device/celsius"`
 
-> Note: the report configures MQTT over TLS and (for project-level simplicity) disables certificate verification. For real deployments, enable certificate verification. 
 
 ### 3) Set Up HiveMQ Cloud
 - Create a HiveMQ Cloud cluster
@@ -82,8 +82,8 @@ Your MicroPython logic should:
 - Note host + port + username/password
 
 ### 4) Import Node-RED Flow
-In Node-RED you should have:
-- **MQTT In** node subscribed to your topic
+In Node-RED we have:
+- **MQTT In** node subscribed 
 - **Database Filtering Function**: discard invalid sensor spikes outside **-30°C to 50°C**
 - **InfluxDB Out** node to store valid values
 - **Threshold Alert Function**:
@@ -97,6 +97,7 @@ In Node-RED you should have:
 - Create InfluxDB bucket/database
 - Configure Node-RED InfluxDB node
 - Use **Node-RED Dashboard** widgets (chart/gauge) for real-time visualization 
+![Node red flow](Node-RED_flow.jpg)
 
 ---
 
