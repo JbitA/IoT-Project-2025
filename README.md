@@ -23,6 +23,8 @@ A low-cost IoT system that monitors medicine storage temperature (recommended **
 
 
 This matches the report’s layered architecture and Node-RED flow design. 
+![system Architecture](SystemArchitecture.jpeg)
+
 
 ---
 
