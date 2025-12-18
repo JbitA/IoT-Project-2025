@@ -11,17 +11,17 @@ from bmp280 import BMP280
 
 #network access credentials
 WIFI_SSID = "abcnet"
-WIFI_PASS = "Chandi@123"
+WIFI_PASS = "aaaaaaaa"
 
 #HiveMQ Cloud Configuration
-##MQTT_HOST = "xxxxxxxxxxxxxxx.s1.eu.hivemq.cloud"
+MQTT_HOST = "d298d263547e404db3f50ce233c41f8f.s1.eu.hivemq.cloud"
 MQTT_PORT = 8883
-##MQTT_USER = "xxxxxxxx"
-##MQTT_PASS = "xxxxxxxxxxxx"
+MQTT_USER = "IoTProject2025"
+MQTT_PASS = "Y[Ob05r-@Yta"
 MQTT_CLIENT_ID = b"Measurement_Device"
 
 #publishing and subscribing MQTT topic
-TOPIC_CELSIUS = b"Measurement_Device/celsius"
+TOPIC_CELSIUS = b"pico/temp"
 
 #I2C + BMP280
 i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=400000)
